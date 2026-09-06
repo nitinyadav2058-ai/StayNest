@@ -1,0 +1,335 @@
+<% layout("/layouts/boilerplate") -%>
+
+<style>
+  .create-container {
+    max-width: 850px;
+    margin: 40px auto;
+  }
+
+  .create-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 35px 40px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eee;
+  }
+
+  .create-heading {
+    text-align: center;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 2rem;
+  }
+
+  .create-subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 35px;
+  }
+
+  .form-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .form-control,
+  .form-select {
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid #dcdcdc;
+    transition: all 0.2s ease;
+  }
+
+  .form-control:focus,
+  .form-select:focus {
+    border-color: #222;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+  }
+
+  textarea.form-control {
+    min-height: 130px;
+    resize: vertical;
+  }
+
+  .form-section {
+    margin-top: 28px;
+    padding-top: 25px;
+    border-top: 1px solid #eee;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .category-select {
+    position: relative;
+  }
+
+  .category-select i {
+    margin-right: 8px;
+  }
+
+  .image-upload {
+    border: 2px dashed #d8d8d8;
+    border-radius: 12px;
+    padding: 20px;
+    background: #fafafa;
+    transition: all 0.2s ease;
+  }
+
+  .image-upload:hover {
+    border-color: #222;
+    background: #f7f7f7;
+  }
+
+  .image-upload input {
+    background: transparent;
+    border: none;
+    padding: 5px;
+  }
+
+  .add-btn {
+    width: 100%;
+    padding: 13px;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-top: 30px;
+    transition: all 0.2s ease;
+  }
+
+  .add-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .required-star {
+    color: #e63946;
+  }
+
+  @media (max-width: 576px) {
+    .create-card {
+      padding: 25px 20px;
+    }
+
+    .create-heading {
+      font-size: 1.6rem;
+    }
+  }
+</style>
+
+<div class="container create-container">
+  <div class="create-card">
+    <!-- Heading -->
+
+    <h3 class="create-heading">Create New Listing</h3>
+
+    <p class="create-subtitle">
+      Add a beautiful place and share it with travelers.
+    </p>
+
+    <form
+      method="POST"
+      action="/listings"
+      class="needs-validation"
+      novalidate
+      enctype="multipart/form-data"
+    >
+      <!-- ================= BASIC INFORMATION ================= -->
+
+      <div class="form-section border-0 mt-0 pt-0">
+        <div class="section-title">Basic Information</div>
+
+        <!-- Title -->
+
+        <div class="mb-3">
+          <label for="title" class="form-label">
+            Listing Title
+            <span class="required-star">*</span>
+          </label>
+
+          <input
+            id="title"
+            name="listing[title]"
+            placeholder="e.g. Beautiful Mountain Retreat"
+            type="text"
+            class="form-control"
+            required
+          />
+
+          <div class="valid-feedback">Title looks good!</div>
+
+          <div class="invalid-feedback">Please enter a listing title.</div>
+        </div>
+
+        <!-- Description -->
+
+        <div class="mb-3">
+          <label for="description" class="form-label">
+            Description
+            <span class="required-star">*</span>
+          </label>
+
+          <textarea
+            id="description"
+            name="listing[description]"
+            placeholder="Tell travelers what makes this place special..."
+            class="form-control"
+            required
+          ></textarea>
+
+          <div class="invalid-feedback">Please enter a description.</div>
+        </div>
+
+        <!-- Category -->
+
+        <div class="mb-3">
+          <label for="category" class="form-label">
+            Category
+            <span class="required-star">*</span>
+          </label>
+
+          <select
+            name="listing[category]"
+            id="category"
+            class="form-select"
+            required
+          >
+            <option value="" selected disabled>Select a category</option>
+
+            <option value="Trending">🔥 Trending</option>
+
+            <option value="Rooms">🛏️ Rooms</option>
+
+            <option value="Iconic Cities">🏙️ Iconic Cities</option>
+
+            <option value="Mountain">⛰️ Mountain</option>
+
+            <option value="Castles">🏰 Castles</option>
+
+            <option value="Amazing pool">🏊 Amazing Pool</option>
+
+            <option value="Camping">⛺ Camping</option>
+
+            <option value="Farms">🐄 Farms</option>
+
+            <option value="Arctic">☃️ Arctic</option>
+          </select>
+
+          <div class="invalid-feedback">Please select a category.</div>
+        </div>
+      </div>
+
+      <!-- ================= IMAGE ================= -->
+
+      <div class="form-section">
+        <div class="section-title">Listing Image</div>
+
+        <div class="mb-3">
+          <label for="image" class="form-label">
+            Upload Image
+            <span class="required-star">*</span>
+          </label>
+
+          <div class="image-upload">
+            <input
+              id="image"
+              name="image"
+              type="file"
+              class="form-control"
+              accept="image/*"
+              required
+            />
+          </div>
+
+          <div class="invalid-feedback">Please upload a listing image.</div>
+
+          <small class="text-muted">
+            Upload a clear image of your property.
+          </small>
+        </div>
+      </div>
+
+      <!-- ================= PRICE & LOCATION ================= -->
+
+      <div class="form-section">
+        <div class="section-title">Price & Location</div>
+
+        <div class="row">
+          <!-- Price -->
+
+          <div class="col-md-6 mb-3">
+            <label for="price" class="form-label">
+              Price per Night
+              <span class="required-star">*</span>
+            </label>
+
+            <div class="input-group">
+              <span class="input-group-text"> ₹ </span>
+
+              <input
+                id="price"
+                name="listing[price]"
+                placeholder="1200"
+                type="number"
+                min="1"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="invalid-feedback">Please enter a valid price.</div>
+          </div>
+
+          <!-- Location -->
+
+          <div class="col-md-6 mb-3">
+            <label for="location" class="form-label">
+              Location
+              <span class="required-star">*</span>
+            </label>
+
+            <input
+              id="location"
+              name="listing[location]"
+              placeholder="Lucknow, Uttar Pradesh"
+              type="text"
+              class="form-control"
+              required
+            />
+
+            <div class="invalid-feedback">Please enter a valid location.</div>
+          </div>
+        </div>
+
+        <!-- Country -->
+
+        <div class="mb-3">
+          <label for="country" class="form-label">
+            Country
+            <span class="required-star">*</span>
+          </label>
+
+          <input
+            id="country"
+            name="listing[country]"
+            placeholder="India"
+            type="text"
+            class="form-control"
+            required
+          />
+
+          <div class="invalid-feedback">Please enter a valid country.</div>
+        </div>
+      </div>
+
+      <!-- ================= SUBMIT ================= -->
+
+      <button type="submit" class="btn btn-dark add-btn">
+        <i class="fa-solid fa-plus"></i>
+        &nbsp; Add Listing
+      </button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+
+<nav
+  class="navbar navbar-expand-md navbar-light bg-light border-bottom sticky-top"
+>
+  <a class="navbar-brand" href="/">
+    <i class="fa-regular fa-compass"></i>
+  </a>
+
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+    <!-- Left side -->
+    <div class="navbar-nav">
+   
+
+      <a class="nav-link" href="/listings">
+       Explore
+      </a>
+
+      
+    </div>
+      <form
+    class="d-flex navbar-search"
+    role="search"
+    action="/listings/search"
+    method="GET"
+>
+    <input
+        class="form-control search-input"
+        type="search"
+        name="q"
+        placeholder="Search destinations..."
+        aria-label="Search"
+    >
+
+    <button class="search-btn" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Search</span>
+    </button>
+</form>
+
+    <!-- Right side -->
+    <div class="navbar-nav ml-auto">
+      <a class="nav-link" href="/listings/new">
+         StayNest your home
+      </a>
+
+      <% if (!currUser) { %>
+
+        <a class="nav-link" href="/signup">
+          <b>Sign Up</b>
+        </a>
+
+        <a class="nav-link" href="/login">
+          <b>Login</b>
+        </a>
+
+      <% } else { %>
+
+        <a class="nav-link" href="/logout">
+          <b>Logout</b>
+        </a>
+
+      <% } %>
+
+    </div>
+
+  </div>
+</nav>
+

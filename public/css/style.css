@@ -1,0 +1,155 @@
+body{
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container{
+    flex:1;
+}
+.navbar{
+    height: 5rem;
+    background-color: white;
+}
+.fa-compass{
+    color: #fe424e;
+    font-size: 2rem;
+}
+.nav-link{
+    color: #222222 !important;
+}
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+}
+.f-info-links a:hover{
+    text-decoration: underline;
+   
+}
+.f-info-links,.f-info-socials,.f-info-brand{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.f-info-socials i{
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+.f-info{
+    text-align: center;
+    display: flex;
+    height: 8rem;
+    background-color: #ebebeb;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+}
+.listing-card{
+    border: none !important;
+    margin-bottom: 2rem;
+     margin: 1rem;
+   
+
+}
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+.card-body{
+    padding: 0;
+}
+.card-text {
+    font-weight: 400 !important;
+    color: #222222 !important;
+}
+.listing-link{
+    text-decoration: none !important;
+}
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+.add-btn{
+    background-color: #fe424e !important;
+    border: none !important;
+}
+.show-img{
+    height: 30vh;
+}
+/* ================= SEARCH BAR ================= */
+
+.navbar-search {
+    display: flex;
+    align-items: center;
+    width: 380px;
+    height: 48px;
+    margin-left: 20px;
+}
+
+/* Search input */
+.search-input {
+    height: 48px;
+    border: 1px solid #ddd;
+    border-right: none;
+    border-radius: 25px 0 0 25px;
+    padding: 0 20px;
+    font-size: 1rem;
+    box-shadow: none !important;
+}
+
+/* Search input when clicked */
+.search-input:focus {
+    border-color: #ff385c;
+    box-shadow: none !important;
+}
+
+/* Search button */
+.search-btn {
+    height: 48px;
+    padding: 0 18px;
+    border: 1px solid #ff385c;
+    background-color: #ff385c;
+    color: white;
+    border-radius: 0 25px 25px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+/* Hover */
+.search-btn:hover {
+    background-color: #e31c5f;
+    border-color: #e31c5f;
+}
+
+/* Search icon */
+.search-btn i {
+    font-size: 0.9rem;
+}
+.navbar {
+    position: relative;
+}
+
+.navbar-search {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+
+    width: 400px;
+    height: 48px;
+}

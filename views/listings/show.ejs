@@ -1,0 +1,350 @@
+
+<%- layout('/layouts/boilerplate.ejs') %>
+
+<body>
+
+    <div class="row mt-3">
+
+        <div class="col-8 offset-2">
+
+            <!-- Listing Title -->
+            <h3><%= listing.title %></h3>
+
+            <!-- Listing Image -->
+            <div class="mb-3">
+                <img
+                    src="<%= listing.image.url %>"
+                    class="img-fluid rounded"
+                    alt="Listing Image"
+                    style="
+                        width: 100%;
+                        max-height: 400px;
+                        object-fit: cover;
+                    "
+                >
+            </div>
+
+
+            <!-- Listing Details -->
+            <div class="card mb-4">
+
+                <div class="card-body">
+
+                    <p class="card-text">
+                        <strong>Description:</strong>
+                        <%= listing.description %>
+                    </p>
+
+                    <p class="card-text">
+                        <strong>Price:</strong>
+                        ₹<%= listing.price.toLocaleString("en-IN") %>
+                    </p>
+
+                    <p class="card-text">
+                        <strong>Location:</strong>
+                        <%= listing.location %>
+                    </p>
+
+                    <p class="card-text">
+                        <strong>Country:</strong>
+                        <%= listing.country %>
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= MAP ================= -->
+
+            <% if (
+                listing.geometry &&
+                listing.geometry.coordinates &&
+                listing.geometry.coordinates.length === 2
+            ) { %>
+
+                <div class="mb-4">
+
+                    <h4>Where you'll be</h4>
+
+                    <div
+                        id="map"
+                        style="
+                            height: 400px;
+                            width: 100%;
+                            border-radius: 10px;
+                        "
+                    ></div>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="alert alert-warning mb-4">
+                    Map location is not available for this listing.
+                </div>
+
+            <% } %>
+
+
+            <!-- ================= EDIT / DELETE ================= -->
+
+            <% if (currUser && listing.owner._id.equals(currUser._id)) { %>
+
+                <div class="d-flex gap-2 mb-4">
+
+                    <a
+                        href="/listings/<%= listing._id %>/edit"
+                        class="btn btn-dark"
+                    >
+                        Edit
+                    </a>
+
+                    <form
+                        method="POST"
+                        action="/listings/<%= listing._id %>?_method=DELETE"
+                    >
+
+                        <button class="btn btn-danger">
+                            Delete
+                        </button>
+
+                    </form>
+
+                </div>
+
+            <% } %>
+
+
+            <!-- ================= REVIEWS ================= -->
+
+            <hr>
+
+            <h4>Reviews</h4>
+
+
+            <!-- Add Review -->
+
+            <% if (currUser) { %>
+
+                <form
+                    action="/listings/<%= listing._id %>/reviews"
+                    method="POST"
+                    class="mb-4"
+                >
+
+                    <!-- Rating -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Rating
+                        </label>
+
+                        <select
+                            name="review[rating]"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Select Rating
+                            </option>
+
+                            <option value="5">
+                                ⭐⭐⭐⭐⭐
+                            </option>
+
+                            <option value="4">
+                                ⭐⭐⭐⭐
+                            </option>
+
+                            <option value="3">
+                                ⭐⭐⭐
+                            </option>
+
+                            <option value="2">
+                                ⭐⭐
+                            </option>
+
+                            <option value="1">
+                                ⭐
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Comment -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Comment
+                        </label>
+
+                        <textarea
+                            name="review[comment]"
+                            class="form-control"
+                            rows="4"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <button class="btn btn-dark">
+                        Submit Review
+                    </button>
+
+                </form>
+
+            <% } %>
+
+
+            <!-- ================= EXISTING REVIEWS ================= -->
+
+            <div class="row">
+
+                <% if (listing.reviews.length === 0) { %>
+
+                    <p>No reviews yet.</p>
+
+                <% } else { %>
+
+                    <% for (let review of listing.reviews) { %>
+
+                        <div class="col-md-6 mb-3">
+
+                            <div class="card">
+
+                                <div class="card-body">
+
+                                    <h6 class="card-title">
+                                        <%= review.author.username %>
+                                    </h6>
+
+                                    <p>
+                                        Rating:
+                                        <%= review.rating %>/5
+                                    </p>
+
+                                    <p class="card-text">
+                                        <%= review.comment %>
+                                    </p>
+
+
+                                    <!-- Delete Review -->
+
+                                    <% if (
+                                        currUser &&
+                                        review.author._id.equals(currUser._id)
+                                    ) { %>
+
+                                        <form
+                                            method="POST"
+                                            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                        >
+
+                                            <button
+                                                class="btn btn-sm btn-danger"
+                                            >
+                                                Delete Review
+                                            </button>
+
+                                        </form>
+
+                                    <% } %>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    <% } %>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= LEAFLET ================= -->
+
+    <% if (
+        listing.geometry &&
+        listing.geometry.coordinates &&
+        listing.geometry.coordinates.length === 2
+    ) { %>
+
+        <!-- Leaflet CSS -->
+
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        >
+
+
+        <!-- Leaflet JS -->
+
+        <script
+            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        ></script>
+
+
+        <!-- Map Script -->
+
+        <script>
+
+            // GeoJSON coordinates:
+            // [longitude, latitude]
+
+            const coordinates =
+                <%- JSON.stringify(listing.geometry.coordinates) %>;
+
+
+            const longitude = coordinates[0];
+
+            const latitude = coordinates[1];
+
+
+            // Create map
+
+            const map = L.map("map").setView(
+                [latitude, longitude],
+                13
+            );
+
+
+            // OpenStreetMap tiles
+
+            L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+                    attribution:
+                        "&copy; OpenStreetMap contributors"
+                }
+            ).addTo(map);
+
+
+            // Add marker
+
+            L.marker([latitude, longitude])
+                .addTo(map)
+                .bindPopup(
+                    "<b><%= listing.title %></b><br>" +
+                    "<%= listing.location %>"
+                )
+                .openPopup();
+
+        </script>
+
+    <% } %>
+
+</body>
+
